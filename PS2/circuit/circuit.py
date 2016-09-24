@@ -396,7 +396,8 @@ class MinHeap:
     """Array-based min-heap implementation """
     def __init__(self):
         # Initially empty heap
-        # empty heap is trivially sorted
+        # the first element of the array is a placeholder so the heapify
+        # calculation is easier
         self.heap = [0]
         self.size = 0
 
@@ -427,7 +428,7 @@ class MinHeap:
             self._min_heapify(i)
 
     def append(self,val):
-        # adds a value to the heap. This causes the heap to become unsorted
+        # adds a value to the heap
         if val is None:
             raise ValueError('Cannot insert None in the heap')
         self.heap.append(val)
@@ -435,6 +436,8 @@ class MinHeap:
         self._bubble_up(self.size)
 
     def _bubble_up(self,child):
+        # helper function for append. 
+        # moves a new child to the correct spot in the heap recursively
         parent = child/2
         if parent > 0:
             if self.heap[child] < self.heap[parent]:
@@ -446,7 +449,7 @@ class MinHeap:
         return self.heap[1]
 
     def pop(self):
-        # pops the minimum element of the min heap
+        # pops the minimum element of the heap
         self.heap[1], self.heap[-1] = self.heap[-1], self.heap[1]
         result = self.heap.pop()
         self.size -= 1
