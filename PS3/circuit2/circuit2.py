@@ -329,7 +329,8 @@ class CrossVerifier(object):
     left_edge = min([wire.x1 for wire in layer.wires.values()])
     for wire in layer.wires.values():
       if wire.is_horizontal():
-        self.events.append([left_edge, 0, wire.object_id, 'add', wire])
+        self.events.append([wire.x1, 0, wire.object_id, 'add', wire])
+        self.events.append([wire.x2, 2, wire.object_id, 'remove', wire])
       else:
         self.events.append([wire.x1, 1, wire.object_id, 'query', wire])
 
@@ -357,6 +358,8 @@ class CrossVerifier(object):
         else:
           for cross_wire in cross_wires:
             result.add_crossing(wire, cross_wire)
+      elif event_type == 'remove':
+        self.index.remove(KeyWirePair(wire.y1,wire))
 
     return result
   
